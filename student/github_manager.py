@@ -16,6 +16,8 @@ class GitHubManager:
     def __init__(self):
         self.github = Github(settings.github_token)
         self.user = self.github.get_user()
+        # Get the actual username from the authenticated account
+        self.username = self.user.login
     
     def create_and_deploy_repo(
         self, 
@@ -83,7 +85,8 @@ class GitHubManager:
             commit_sha = local_repo.head.commit.hexsha
             
             # Enable GitHub Pages if requested
-            pages_url = f"https://{settings.github_username}.github.io/{repo_name}/"
+            # Use actual username from authenticated GitHub account
+            pages_url = f"https://{self.username}.github.io/{repo_name}/"
             if enable_pages:
                 try:
                     # Try method 1: Using PyGithub's built-in method
@@ -183,4 +186,47 @@ class GitHubManager:
     
     def get_pages_url(self, repo_name: str) -> str:
         """Get the GitHub Pages URL for a repository."""
-        return f"https://{settings.github_username}.github.io/{repo_name}/"
+        return f"https://{self.username}.github.io/{repo_name}/"
+    
+    async def verify_pages_deployed(self, pages_url: str, timeout: int = 120) -> bool:
+        """
+        Verify GitHub Pages is deployed and accessible.
+        
+        Args:
+            pages_url: The GitHub Pages URL
+            timeout: Maximum seconds to wait
+            
+        Returns:
+            True if pages is accessible, False otherwise
+        """
+        import asyncio
+        import httpx
+        import time
+        
+        start_time = time.time()
+        attempts = 0
+        
+        print(f"Verifying GitHub Pages deployment: {pages_url}")
+        
+        while time.time() - start_time < timeout:
+            attempts += 1
+            try:
+                async with httpx.AsyncClient() as client:
+                    response = await client.get(
+                        pages_url, 
+                        timeout=10.0, 
+                        follow_redirects=True
+                    )
+                    if response.status_code == 200:
+                        print(f"✅ GitHub Pages deployed successfully after {attempts} attempts ({time.time() - start_time:.1f}s)")
+                        return True
+                    else:
+                        print(f"Attempt {attempts}: Status {response.status_code}")
+            except Exception as e:
+                print(f"Attempt {attempts}: {type(e).__name__}: {str(e)[:50]}")
+            
+            if time.time() - start_time < timeout:
+                await asyncio.sleep(10)  # Wait 10 seconds between checks
+        
+        print(f"❌ GitHub Pages not accessible after {timeout} seconds and {attempts} attempts")
+        return False
