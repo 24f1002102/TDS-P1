@@ -1,14 +1,15 @@
 services:
-  # Student API Service
   - type: web
     name: tds-student-api
-    env: python
+    runtime: python
     region: oregon
     plan: free
     branch: main
-    buildCommand: pip install -r requirements.txt && playwright install chromium
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt && playwright install chromium
     startCommand: python -m student.api
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18
       - key: PYTHONUNBUFFERED
         value: 1
       - key: PYTHONPATH
@@ -27,6 +28,4 @@ services:
         value: openai
       - key: API_HOST
         value: 0.0.0.0
-      - key: API_PORT
-        value: 10000
     healthCheckPath: /health
