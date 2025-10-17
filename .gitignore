@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]__/
+*$py.class
+*.so.class
+.Python
+venv/hon
+env/
+ENV//
+
+# Environment
+.envop-eggs/
+.env.local
+oads/
+# Logs
+logs/s/
+*.log
+
+# IDE
+.vscode/t/
+.idea/
+*.swp
+*.swo
+alled.cfg
+# Generated*.egg
+generated_repos/
+*.dbvironment
+*.sqlite
+al
+# OS*.secret
+.DS_Store
+Thumbs.dbtabase
+
+# Temporary
+temp/*.sqlite3
+tmp/

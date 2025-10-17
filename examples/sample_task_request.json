@@ -1,0 +1,16 @@
+{
+  "email": "student@example.com",
+  "secret": "your-secret-here",
+  "task": "test-task-abc12",
+  "round": 1,
+  "nonce": "550e8400-e29b-41d4-a716-446655440000",
+  "brief": "Create a simple web page that displays 'Hello, World!' in an h1 tag with id='greeting'. Use Bootstrap 5 from CDN for styling.",
+  "checks": [
+    "Repo has MIT license",
+    "README.md is professional",
+    "js: document.querySelector('#greeting').textContent === 'Hello, World!'",
+    "js: document.querySelector('link[href*=\"bootstrap\"]') !== null"
+  ],
+  "evaluation_url": "http://localhost:8001/api/evaluate",
+  "attachments": []
+}

@@ -1,0 +1,3 @@
+timestamp,email,endpoint,secret
+2025-10-17 10:00:00,student1@example.com,https://student1.ngrok.io/api/task,secret123
+2025-10-17 10:05:00,student2@example.com,https://student2.ngrok.io/api/task,secret456
