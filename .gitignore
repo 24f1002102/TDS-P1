@@ -34,3 +34,5 @@ Thumbs.dbtabase
 # Temporary
 temp/*.sqlite3
 tmp/
+
+.env
