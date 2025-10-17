@@ -296,7 +296,7 @@ Edit `instructor/evaluate.py` to add custom checks.
 
 ## License
 
-MIT License - See LICENSE file
+MIT License - See LICENSE file.
 
 ## Support
 
